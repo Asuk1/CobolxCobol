@@ -108,6 +108,96 @@ To ensure clarity and maintainability, I added extensive comments throughout bot
 - Document the relationship between Python code and original COBOL behavior
 - Provide context for future maintenance
 
+### Phase 5: Quality Concerns and Architecture Refinement
+
+#### Testing Limitations and Quality Issues
+When I finally reached the testing phase, the consolidated single-file approach proved insufficient. Despite following the recommended practices, the code quality and architecture didn't meet my standards. As someone who is extremely meticulous about production code quality, I identified several critical issues:
+
+- **Architectural Concerns**: The monolithic structure seemed to always be missing something essential
+- **Code Quality**: The generated code lacked the robustness and clarity I require for production systems
+- **Maintainability**: The single-file approach created maintenance challenges that would compound over time
+
+#### Complete Restart: Ideal Architecture Approach
+Recognizing these fundamental issues, I made the decision to start completely over. This time, I took a more deliberate approach:
+
+**1. Architecture-First Design:**
+- I designed my ideal architecture before engaging with Copilot
+- Created a proper separation of concerns with three distinct Python files corresponding to the original COBOL files
+- Established clear boundaries and responsibilities for each module
+
+**2. Structured Copilot Collaboration:**
+- Used my architectural blueprint to guide Copilot's code generation
+- Requested comprehensive test suites covering multiple testing categories:
+  - Integration tests
+  - Validation tests  
+  - Edge cases
+  - Basic functionality tests
+- Organized tests into separate, focused files for better maintainability
+
+#### Critical Testing Failures
+Initially, this approach seemed promising until I encountered severe testing issues:
+
+**Out of Memory (OOM) Errors:**
+- Integration and validation tests were causing memory exhaustion
+- The system couldn't handle the test load, indicating fundamental design problems
+
+**Test Reliability Issues:**
+- Manual test rewrites still failed to resolve the underlying problems
+- Modifying the source code to fix failing tests broke previously passing tests
+- This created a cascade of regressions that undermined confidence in the system
+
+**COBOL Compatibility Concerns:**
+Most critically, I realized I was at risk of diverging from the original COBOL behavior. Since I don't fully understand COBOL, this presented a significant risk of introducing functional discrepancies that would violate the core requirement of maintaining behavioral compatibility.
+
+### Phase 6: Final Approach - Principles-Based Development
+
+#### Back to Fundamentals
+Faced with these challenges, I decided to start over once again, but this time applying the fundamental principles I learned during the bootcamp presentations:
+
+**Core Design Principles:**
+- **Loose Coupling**: Ensuring minimal dependencies between components
+- **Separation of Concerns**: Clear, distinct responsibilities for each module
+- **Testability**: Design for comprehensive, reliable testing from the ground up
+
+#### Testing Methodology Revolution
+The most significant change was revolutionizing my testing approach:
+
+**Previous Testing Issues:**
+- Relied heavily on `patch` and simple `assert` statements
+- These methods proved inadequate for complex input/output scenarios
+- Created brittle tests that were difficult to maintain and debug
+
+**New Testing Strategy:**
+- Adopted more appropriate testing methods for input/output validation:
+  - **`monkeypatch`**: For clean, reliable mocking and environment manipulation
+  - **`capfd`**: For precise capture and validation of file descriptors and output streams
+- These tools provided much more robust and reliable testing capabilities
+
+### Phase 7: Final Results - Production-Quality Solution
+
+#### Achieved Outcomes
+The principled restart approach delivered exceptional results:
+
+**Code Quality:**
+- **Functional**: The system works reliably and maintains COBOL behavioral compatibility
+- **Clean Architecture**: Three simple, well-structured Python files with loose coupling
+- **Reliability**: Highly dependable system with predictable behavior
+
+**Testing Excellence:**
+- **100% Code Coverage**: Comprehensive test coverage with no gaps
+- **Multi-Layered Testing**: 
+  - Validation tests ensuring data integrity
+  - Integration tests confirming system-wide functionality
+  - Edge case tests handling boundary conditions
+  - Basic functionality tests covering core operations
+- **Robust Test Suite**: All tests pass consistently with no flakiness
+
+**Project Deliverables:**
+- **Clean Implementation**: A solution that meets my exacting standards for production code
+- **Comprehensive Documentation**: Solid documentation covering architecture, usage, and maintenance
+- **Professional Delivery**: A project outcome that I'm genuinely satisfied with
+
+This final iteration demonstrates that sometimes the path to excellence requires multiple restarts, but applying fundamental engineering principles and maintaining high standards ultimately delivers superior results.
 
 ### Key Copilot Prompts for Migration:
 ```bash/ 
