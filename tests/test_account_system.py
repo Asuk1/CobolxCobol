@@ -1,8 +1,11 @@
 # test_account_system.py - Comprehensive pytest tests for loosely coupled account system
+import os
 import pytest
 import sys
 from io import StringIO
 from unittest.mock import patch, MagicMock
+
+sys.path.append(os.path.abspath('../convert_to_python'))
 
 # Import the modules (adjust imports based on your actual file structure)
 from data_program import DataProgram, call_data_program, _data_program_instance
@@ -246,7 +249,7 @@ class TestMainProgram:
             try:
                 return next(inputs)
             except StopIteration:
-                return '4'  # Par défaut, sortir du programme
+                return '4'  # By default, exit the program
 
         monkeypatch.setattr('builtins.input', fake_input)
         
@@ -265,7 +268,7 @@ class TestMainProgram:
             try:
                 return next(inputs)
             except StopIteration:
-                return '4'  # Par défaut, sortir du programme
+                return '4'  # By default, exit the program
 
         monkeypatch.setattr('builtins.input', fake_input)
         
