@@ -8,19 +8,6 @@ This project demonstrates how to modernize a legacy COBOL accounting system by c
 - **Goal:** Transform COBOL code into maintainable Python modules.
 - **Approach:** Use GitHub Copilot in Visual Studio Code to assist with code conversion, refactoring, and testing.
 
-## Features
-
-- Account management: view balance, credit, debit, exit.
-- Modular Python code structure.
-- Unit tests for all core functionalities.
-
-## Code Structure
-
-- `accountsystem.py` — Main Python implementation of the accounting logic.
-- `test_account.py` — Unit tests for the Python code.
-- `test_account.cob` — Unit tests for the Cobol code.
-- Legacy COBOL files are preserved for reference.
-
 ## How Copilot Helps
 
 - Converts COBOL logic to Python functions and classes.
@@ -174,4 +161,37 @@ Convert #file:main.cob to Python, maintaining exact same behavior for data persi
 
 ```bash
 /tests Generate comprehensive unit tests for this Python class that validate identical behavior to the original COBOL implementation.
+```
+
+```bash
+@workspace Convert the COBOL Account Management System into Python.
+
+Requirements:
+- The Python code must be an EXACT transcription of the COBOL logic, including:
+  - menu structure
+  - validation
+  - error handling
+  - business rules
+- Ensure **low coupling**:
+  - Create a separate `Account` class (business logic: balance, debit, credit, validation).
+  - Create a separate `AccountUI` (console input/output, menus).
+  - The UI should only call the business logic methods, never directly manipulate balance.
+- Keep the code clear, structured, and faithful to the COBOL program.
+- The result must be executable in Python without requiring external libraries.
+```
+
+```bash
+/fix Review and fix any issues in the test file:
+- Ensure all mocks are properly configured
+- Verify assertion logic is correct
+- Check that output validation works properly
+- Confirm test isolation (each test is independent)
+```
+
+```bash
+/fixTestFailure Fix any failing tests and ensure:
+- All mocked inputs match expected formats
+- Output assertions match actual program messages
+- Balance calculations are mathematically correct
+- Integration tests cover realistic user scenarios
 ```

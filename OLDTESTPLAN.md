@@ -1,6 +1,61 @@
 # Test Plan for COBOL Application
 
-This test plan outlines the business logic and scenarios that need to be validated with the business stakeholders. Once validated, you can use this plan to create unit tests and integration tests for the Node.js application.
+This test plan outlines the business logic and scenarios that need to be validated with the business stakeholders. Once validated, you can use this plan to create unit tests and integration tests for the python application.
+
+
+## Sequence Diagram: Data Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant MainProgram
+    participant Operations
+    participant DataProgram
+
+    User->>MainProgram: Start Application
+    MainProgram->>User: Display Menu
+    User->>MainProgram: Select Option (1-4)
+    
+    alt View Balance
+        MainProgram->>Operations: CALL 'Operations' USING 'TOTAL '
+        Operations->>DataProgram: CALL 'DataProgram' USING 'READ', FINAL-BALANCE
+        DataProgram-->>Operations: RETURN FINAL-BALANCE
+        Operations->>User: DISPLAY "Current balance: " FINAL-BALANCE
+    end
+    
+    alt Credit Account
+        MainProgram->>Operations: CALL 'Operations' USING 'CREDIT'
+        Operations->>User: DISPLAY "Enter credit amount: "
+        User->>Operations: Enter Amount
+        Operations->>DataProgram: CALL 'DataProgram' USING 'READ', FINAL-BALANCE
+        DataProgram-->>Operations: RETURN FINAL-BALANCE
+        Operations->>Operations: ADD AMOUNT TO FINAL-BALANCE
+        Operations->>DataProgram: CALL 'DataProgram' USING 'WRITE', FINAL-BALANCE
+        DataProgram-->>Operations: RETURN
+        Operations->>User: DISPLAY "Amount credited. New balance: " FINAL-BALANCE
+    end
+    
+    alt Debit Account
+        MainProgram->>Operations: CALL 'Operations' USING 'DEBIT '
+        Operations->>User: DISPLAY "Enter debit amount: "
+        User->>Operations: Enter Amount
+        Operations->>DataProgram: CALL 'DataProgram' USING 'READ', FINAL-BALANCE
+        DataProgram-->>Operations: RETURN FINAL-BALANCE
+        alt Sufficient Funds
+            Operations->>Operations: SUBTRACT AMOUNT FROM FINAL-BALANCE
+            Operations->>DataProgram: CALL 'DataProgram' USING 'WRITE', FINAL-BALANCE
+            DataProgram-->>Operations: RETURN
+            Operations->>User: DISPLAY "Amount debited. New balance: " FINAL-BALANCE
+        else Insufficient Funds
+            Operations->>User: DISPLAY "Insufficient funds for this debit."
+        end
+    end
+    
+    alt Exit Application
+        MainProgram->>MainProgram: MOVE 'NO' TO CONTINUE-FLAG
+        MainProgram->>User: DISPLAY "Exiting the program. Goodbye!"
+    end
+```
 
 ## Test Plan Table
 
@@ -170,4 +225,6 @@ This test plan outlines the business logic and scenarios that need to be validat
 
 ## Summary
 
-This test plan covers the main functionalities of the COBOL application, including viewing the balance, crediting the account, debiting the account, and exiting the application. Validate this test plan with the business stakeholders to ensure it meets the business requirements. Once validated, you can use this plan to create corresponding unit tests and integration tests for the Node.js application.
+This test plan covers the main functionalities of the COBOL application, including viewing the balance, crediting the account, debiting the account, and exiting the application. Validate this test plan with the business stakeholders to ensure it meets the business requirements. Once validated, you can use this plan to create corresponding unit tests and integration tests for the python application.
+
+
