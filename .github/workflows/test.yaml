@@ -32,17 +32,3 @@ jobs:
     - name: 🧪 Run tests
       run: |
         python -m pytest tests/test_account_system.py -v --cov=. --cov-report=xml --cov-report=term
-
-    - name: 📊 Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
-
-    - name: 📈 Publish test results
-      uses: dorny/test-reporter@v1
-      if: success() || failure()
-      with:
-        name: Test Results Python ${{ matrix.python-version }}
-        path: 'test-results.xml'
-        reporter: java-junit
